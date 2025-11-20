@@ -1,0 +1,29 @@
+# === Global ===
+.DS_Store
+Thumbs.db
+
+# === Backend (Express/Node) ===
+backend/node_modules/
+backend/.env
+backend/.env.*
+backend/dist/
+backend/build/
+backend/npm-debug.log*
+backend/yarn-error.log*
+
+# === Frontend (Vite React) ===
+frontend/node_modules/
+frontend/.env
+frontend/.env.*
+frontend/dist/
+frontend/build/
+
+# === Log files ===
+*.log
+logs/
+debug.log
+
+# === Editor/OS files ===
+.vscode/
+*.swp
+*.swo
