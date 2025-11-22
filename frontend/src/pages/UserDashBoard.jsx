@@ -6,7 +6,7 @@ import LogoutButton from "../components/LogoutButton";
 
 export default function UserReelsDashboard() {
   const [reels, setReels] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchReels = async () => {
@@ -14,6 +14,7 @@ export default function UserReelsDashboard() {
         const response = await axiosInstance.get("/api/food");
         setReels(response.data.foodItems || []);
       } catch (err) {
+        setReels([]);
         console.error("Error fetching reels:", err);
         errorToast("Failed to load reels. Please try again later.");
       } finally {
@@ -21,12 +22,12 @@ export default function UserReelsDashboard() {
       }
     };
 
-    fetchReels();
+    // fetchReels();
   }, []);
 
   if (loading) {
     return (
-      <div className="w-full h-screen flex items-center justify-center text-white text-xl">
+      <div className="w-full h-screen flex items-center justify-center bg-black text-white text-xl">
         Loading reels...
       </div>
     );
@@ -37,9 +38,16 @@ export default function UserReelsDashboard() {
       className="w-full h-screen overflow-y-scroll snap-y snap-mandatory bg-black text-white scrollbar-hide"
       style={{ scrollSnapType: "y mandatory" }}
     >
-      {reels.map((item, index) => (
-        <ReelCard key={index} item={item} />
-      ))}
+      {reels.length === 0 && (
+        <div className="w-full h-screen flex items-center justify-center text-white text-xl">
+          <div className="relative">
+            <LogoutButton />
+            No reels available.
+          </div>
+        </div>
+      )}
+      {reels.length > 0 &&
+        reels.map((item, index) => <ReelCard key={index} item={item} />)}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import MotionWrapper from "../components/MotionWrapper";
 const Home = () => {
   return (
     <MotionWrapper>
-      <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 to-gray-700 text-white p-6">
+      <div className="flex flex-col justify-center items-center min-h-screen bg-linear-to-br from-gray-900 to-gray-700 text-white p-6">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center drop-shadow-lg">
           Welcome to FoodReel 🍽️
         </h1>

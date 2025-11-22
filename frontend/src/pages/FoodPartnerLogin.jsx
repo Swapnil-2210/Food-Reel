@@ -33,7 +33,11 @@ export default function FoodPartnerLogin() {
 
         // You can add further actions here, like redirecting the user
         reset();
-        navigate("/food-partner/dashboard");
+        navigate("/food-partner/dashboard", {
+          state: {
+            foodpartner: response.data.foodpartner,
+          },
+        });
       })
       .catch((error) => {
         errorToast(

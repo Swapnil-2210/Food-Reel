@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 
+// Registration Schema for Users
 export const registerSchema = Yup.object({
   fullname: Yup.string()
     .required("Name is required")
@@ -12,6 +13,7 @@ export const registerSchema = Yup.object({
     .min(6, "Min 6 characters"),
 });
 
+// Login Schema for Users
 export const loginSchema = Yup.object({
   email: Yup.string().required("Email is required").email("Invalid email"),
 
@@ -36,4 +38,16 @@ export const foodPartnerSchema = Yup.object({
 export const foodPartnerLoginSchema = Yup.object({
   email: Yup.string().required("Email is required").email("Invalid email"),
   password: Yup.string().required("Password required"),
+});
+
+// add food  Validation Schema
+export const addFoodSchema = Yup.object({
+  name: Yup.string().required("Food name is required"),
+  description: Yup.string().required("Description is required"),
+  video: Yup
+    .mixed()
+    .required("Video file is required")
+    .test("fileType", "Only video files allowed", (value) => {
+      return value && value[0]?.type.startsWith("video/");
+    }),
 });

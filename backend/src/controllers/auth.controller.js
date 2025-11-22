@@ -87,7 +87,8 @@ export async function logoutUser(req, res) {
 }
 
 export async function registerFoodPartner(req, res) {
-  const { restaurantName, ownerName, phone, email, password, location } = req.body;
+  const { restaurantName, ownerName, phone, email, password, location } =
+    req.body;
 
   const isFoodPartnerAlreadyExists = await foodPartnerModel.findOne({ email });
 
@@ -162,6 +163,13 @@ export async function loginFoodPartner(req, res) {
 
   res.status(200).json({
     message: "Radhe Radhe: Food partner logged in successfully. ✅",
+    foodpartner: {
+      restaurantName: foodPartner.restaurantName,
+      ownerName: foodPartner.ownerName,
+      location: foodPartner.location,
+      phone: foodPartner.phone,
+      email: foodPartner.email,
+    },
   });
 }
 
