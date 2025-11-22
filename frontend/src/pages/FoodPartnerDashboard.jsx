@@ -4,9 +4,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import axiosInstance from "../api/axiosInstance";
 import { successToast, errorToast } from "../utils/toast";
 import { addFoodSchema } from "../utils/validation/authSchema";
+import { useState } from "react";
+import FoodReelsModal from "../components/FoodReelsModal";
+import { useEffect } from "react";
 
 export default function FoodPartnerDashboard() {
   const { state } = useLocation(); // Data coming from navigate()
+  const [openReels, setOpenReels] = useState(false);
+  const [reels, setReels] = useState([]);
 
   const {
     register,
@@ -16,6 +21,20 @@ export default function FoodPartnerDashboard() {
   } = useForm({
     resolver: yupResolver(addFoodSchema),
   });
+
+  useEffect(() => {
+    const fetchReels = async () => {
+      try {
+        const res = await axiosInstance.get("/api/food/userSpecific");
+        setReels(res.data.foodItems);
+      } catch (err) {
+        console.error(err);
+        errorToast("Failed to fetch reels!");
+      }
+    };
+
+    fetchReels();
+  }, []);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -43,6 +62,13 @@ export default function FoodPartnerDashboard() {
   return (
     <div className="w-full min-h-screen bg-gray-900 text-white p-6 flex items-center justify-center lg:flex-row flex-col gap-8">
       {/* HEADER */}
+
+      <FoodReelsModal
+        isOpen={openReels}
+        onClose={() => setOpenReels(false)}
+        reels={reels}
+      />
+
       <h1 className="text-2xl font-bold mb-6 text">🍽 Food Partner Dashboard</h1>
 
       {/* PARTNER INFO */}
@@ -64,6 +90,13 @@ export default function FoodPartnerDashboard() {
         <p className="lg:py-3.5">
           <strong>Email:</strong> {state?.foodpartner?.email}
         </p>
+
+        <button
+          onClick={() => setOpenReels(true)}
+          className="w-full py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition mt-4"
+        >
+          View Uploaded Reels
+        </button>
       </div>
 
       {/* CREATE FOOD ITEM FORM */}

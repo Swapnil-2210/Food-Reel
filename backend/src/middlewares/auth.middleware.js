@@ -25,29 +25,25 @@ export async function authFoodPartnerMiddleware(req, res, next) {
   }
 }
 
-
 export async function authUserMiddlleware(req, res, next) {
-  
   const token = req.cookies.token;
-  
-  if(!token){
+
+  if (!token) {
     return res.status(401).json({
-      message: "Radhe Radhe: Please login first"
-    })
+      message: "Radhe Radhe: Please login first",
+    });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.FOOD_REEL_JWt_SECRET);
-
     const user = await userModel.findById(decoded.id);
 
     req.user = user;
 
-    next()
-    
+    next();
   } catch (error) {
     return res.status(401).json({
-      message: "Radhe Radhe: Invalid token"
-    })
+      message: "Radhe Radhe: Invalid token",
+    });
   }
 }

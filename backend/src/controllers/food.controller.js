@@ -30,3 +30,14 @@ export async function getFoodItems(req, res) {
         foodItems
     })
 }
+
+
+
+export async function getFoodItemsByUserId(req, res) {
+    const foodItems = await foodModel.find({ foodPartner: req.foodPartner._id });
+
+    res.status(200).json({
+        message: "User specific food items fetched successfully",
+        foodItems
+    });
+}
