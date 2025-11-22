@@ -5,6 +5,7 @@ import FoodPartnerRegister from "../pages/FoodPartnerRegister";
 import FoodPartnerLogin from "../pages/FoodPartnerLogin";
 import Home from "../pages/Home";
 import MotionWrapper from "../components/MotionWrapper";
+import UserReelsDashboard from "../pages/UserDashBoard";
 const AppRoutes = () => {
   return (
     <Router>
@@ -13,6 +14,7 @@ const AppRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/user/register" element={<UserRegister />} />
           <Route path="/user/login" element={<UserLogin />} />
+          <Route path="/user/dashboard" element={<UserReelsDashboard />} />
           <Route
             path="/food-partner/register"
             element={<FoodPartnerRegister />}

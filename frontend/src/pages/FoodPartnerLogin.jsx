@@ -1,18 +1,41 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { inputClass, labelClass, errorClass, buttonClass } from "../styles/formStyles";
+import {
+  inputClass,
+  labelClass,
+  errorClass,
+  buttonClass,
+} from "../styles/formStyles";
 import { foodPartnerLoginSchema } from "../utils/validation/authSchema";
 import BackButton from "../components/BackButton";
+import axiosInstance from "../api/axiosInstance";
+import { errorToast, successToast } from "../utils/toast";
 
 export default function FoodPartnerLogin() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(foodPartnerLoginSchema) });
 
   const onSubmit = (data) => {
     console.log(data);
+    axiosInstance
+      .post("/api/auth/food-partner/login", data)
+      .then((response) => {
+        console.log("Login successful:", response.data);
+        successToast(response.data.message || "Login successful");
+        // You can add further actions here, like redirecting the user
+        reset();
+        
+      })
+      .catch((error) => {
+        errorToast(
+          error.response?.data?.message || "Login failed. Please try again."
+        );
+        console.error("Login failed:", error.response?.data || error.message);
+      });
   };
 
   return (
@@ -26,12 +49,16 @@ export default function FoodPartnerLogin() {
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label className={labelClass}>Restaurant ID</label>
-          <input {...register("restaurantId")} className={inputClass} />
-          <p className={errorClass}>{errors.restaurantId?.message}</p>
+          <label className={labelClass}>Email ID</label>
+          <input {...register("email")} className={inputClass} />
+          <p className={errorClass}>{errors.email?.message}</p>
 
           <label className={`${labelClass} mt-3 block`}>Password</label>
-          <input type="password" {...register("password")} className={inputClass} />
+          <input
+            type="password"
+            {...register("password")}
+            className={inputClass}
+          />
           <p className={errorClass}>{errors.password?.message}</p>
 
           <button className={buttonClass} type="submit">

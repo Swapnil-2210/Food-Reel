@@ -34,6 +34,6 @@ export const foodPartnerSchema = Yup.object({
 
 // Food Partner Login
 export const foodPartnerLoginSchema = Yup.object({
-  restaurantId: Yup.string().required("Restaurant ID required"),
+  email: Yup.string().required("Email is required").email("Invalid email"),
   password: Yup.string().required("Password required"),
 });
