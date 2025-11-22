@@ -31,7 +31,7 @@ export default function FoodPartnerRegister() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center flex-col bg-gray-950 px-4">
+    <div className="min-h-screen flex justify-center items-center flex-co bg-gray-950 px-4">
       <div className="flex mb-4">
         <BackButton />
       </div>

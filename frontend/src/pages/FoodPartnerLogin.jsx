@@ -10,6 +10,7 @@ import { foodPartnerLoginSchema } from "../utils/validation/authSchema";
 import BackButton from "../components/BackButton";
 import axiosInstance from "../api/axiosInstance";
 import { errorToast, successToast } from "../utils/toast";
+import { useNavigate } from "react-router-dom";
 
 export default function FoodPartnerLogin() {
   const {
@@ -18,6 +19,7 @@ export default function FoodPartnerLogin() {
     reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(foodPartnerLoginSchema) });
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -26,9 +28,12 @@ export default function FoodPartnerLogin() {
       .then((response) => {
         console.log("Login successful:", response.data);
         successToast(response.data.message || "Login successful");
+        localStorage.setItem("auth", "true");
+        localStorage.setItem("role", "partner");
+
         // You can add further actions here, like redirecting the user
         reset();
-        
+        navigate("/food-partner/dashboard");
       })
       .catch((error) => {
         errorToast(

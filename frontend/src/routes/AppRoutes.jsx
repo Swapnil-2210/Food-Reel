@@ -6,6 +6,8 @@ import FoodPartnerLogin from "../pages/FoodPartnerLogin";
 import Home from "../pages/Home";
 import MotionWrapper from "../components/MotionWrapper";
 import UserReelsDashboard from "../pages/UserDashBoard";
+import FoodPartnerDashboard from "../pages/FoodPartnerDashboard";
+import ProtectedRoute from "./ProtectedRoute";
 const AppRoutes = () => {
   return (
     <Router>
@@ -14,12 +16,28 @@ const AppRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/user/register" element={<UserRegister />} />
           <Route path="/user/login" element={<UserLogin />} />
-          <Route path="/user/dashboard" element={<UserReelsDashboard />} />
+          <Route
+            path="/user/dashboard"
+            element={
+              <ProtectedRoute role="user">
+                <UserReelsDashboard />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/food-partner/register"
             element={<FoodPartnerRegister />}
           />
           <Route path="/food-partner/login" element={<FoodPartnerLogin />} />
+
+            <Route
+            path="/food-partner/dashboard"
+            element={
+              <ProtectedRoute role="partner">
+                <FoodPartnerDashboard />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </MotionWrapper>
     </Router>

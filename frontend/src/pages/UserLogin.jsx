@@ -1,6 +1,11 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { inputClass, labelClass, errorClass, buttonClass } from "../styles/formStyles";
+import {
+  inputClass,
+  labelClass,
+  errorClass,
+  buttonClass,
+} from "../styles/formStyles";
 import { loginSchema } from "../utils/validation/authSchema";
 import BackButton from "../components/BackButton";
 import axiosInstance from "../api/axiosInstance";
@@ -18,23 +23,29 @@ export default function Login() {
 
   const onSubmit = (data) => {
     console.log(data);
-    axiosInstance.post("/api/auth/user/login", data)
-    .then((response) => {
-      console.log("Login successful:", response.data);
-      successToast(response.data.message || "Login successful");
-      // You can add further actions here, like redirecting the user
-      reset();
-      navigate("/user/dashboard");
-    })
-    .catch((error) => {
-      errorToast(error.response?.data?.message || "Login failed. Please try again.");
-      console.error("Login failed:", error.response?.data || error.message);
-    });
+    axiosInstance
+      .post("/api/auth/user/login", data)
+      .then((response) => {
+        console.log("Login successful:", response.data);
+        successToast(response.data.message || "Login successful");
+        localStorage.setItem("auth", "true");
+        localStorage.setItem("role", "user");
+
+        // You can add further actions here, like redirecting the user
+        reset();
+        navigate("/user/dashboard");
+      })
+      .catch((error) => {
+        errorToast(
+          error.response?.data?.message || "Login failed. Please try again."
+        );
+        console.error("Login failed:", error.response?.data || error.message);
+      });
   };
 
   return (
     <div className="min-h-screen flex justify-center items-center flex-col bg-gray-950 px-4">
-     <div className="flex mb-4">
+      <div className="flex mb-4">
         <BackButton />
       </div>
       <div className="bg-gray-900 p-6 rounded-xl shadow-xl w-full max-w-md">
@@ -48,10 +59,16 @@ export default function Login() {
           <p className={errorClass}>{errors.email?.message}</p>
 
           <label className={`${labelClass} mt-3 block`}>Password</label>
-          <input type="password" {...register("password")} className={inputClass} />
+          <input
+            type="password"
+            {...register("password")}
+            className={inputClass}
+          />
           <p className={errorClass}>{errors.password?.message}</p>
 
-          <button className={buttonClass} type="submit">Login</button>
+          <button className={buttonClass} type="submit">
+            Login
+          </button>
         </form>
       </div>
     </div>
