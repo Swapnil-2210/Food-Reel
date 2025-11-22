@@ -87,7 +87,7 @@ export async function logoutUser(req, res) {
 }
 
 export async function registerFoodPartner(req, res) {
-  const { name, email, password } = req.body;
+  const { restaurantName, ownerName, phone, email, password, location } = req.body;
 
   const isFoodPartnerAlreadyExists = await foodPartnerModel.findOne({ email });
 
@@ -100,9 +100,12 @@ export async function registerFoodPartner(req, res) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const foodpartner = await foodPartnerModel.create({
-    name,
+    restaurantName,
+    ownerName,
+    phone,
     email,
     password: hashedPassword,
+    location,
   });
 
   const token = jwt.sign(
@@ -118,8 +121,11 @@ export async function registerFoodPartner(req, res) {
     message: "Radhe Radhe: Food partner registered successfully.✅",
     foodpartner: {
       _id: foodpartner._id,
+      restaurantName: foodpartner.restaurantName,
+      ownerName: foodpartner.ownerName,
+      phone: foodpartner.phone,
       email: foodpartner.email,
-      name: foodpartner.name,
+      location: foodpartner.location,
     },
   });
 }
@@ -139,10 +145,10 @@ export async function loginFoodPartner(req, res) {
 
   const isPasswordValid = await bcrypt.compare(password, foodPartner.password);
 
-  if(!isPasswordValid){
+  if (!isPasswordValid) {
     return res.status(400).json({
-      message: "Radhe Radhe: Invalid credentials."
-    })
+      message: "Radhe Radhe: Invalid credentials.",
+    });
   }
 
   const token = jwt.sign(
@@ -159,10 +165,9 @@ export async function loginFoodPartner(req, res) {
   });
 }
 
-
 export async function logoutFoodPartner(req, res) {
-   res.clearCookie("token");
-   res.status(200).json({
-    message: "Radhe Radhe: Food partner logged out successfully. ✅"
-   })
+  res.clearCookie("token");
+  res.status(200).json({
+    message: "Radhe Radhe: Food partner logged out successfully. ✅",
+  });
 }

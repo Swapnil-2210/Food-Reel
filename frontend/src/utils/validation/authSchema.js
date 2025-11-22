@@ -1,13 +1,11 @@
 import * as Yup from "yup";
 
 export const registerSchema = Yup.object({
-  name: Yup.string()
+  fullname: Yup.string()
     .required("Name is required")
     .min(3, "Minimum 3 characters"),
 
-  email: Yup.string()
-    .required("Email is required")
-    .email("Invalid email"),
+  email: Yup.string().required("Email is required").email("Invalid email"),
 
   password: Yup.string()
     .required("Password is required")
@@ -15,9 +13,7 @@ export const registerSchema = Yup.object({
 });
 
 export const loginSchema = Yup.object({
-  email: Yup.string()
-    .required("Email is required")
-    .email("Invalid email"),
+  email: Yup.string().required("Email is required").email("Invalid email"),
 
   password: Yup.string().required("Password is required"),
 });
@@ -29,7 +25,11 @@ export const foodPartnerSchema = Yup.object({
   phone: Yup.string()
     .required("Phone number required")
     .matches(/^[0-9]{10}$/, "Phone must be 10 digits"),
+  email: Yup.string().required("Email is required").email("Invalid email"),
   location: Yup.string().required("Location required"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(6, "Minimum 6 characters"),
 });
 
 // Food Partner Login

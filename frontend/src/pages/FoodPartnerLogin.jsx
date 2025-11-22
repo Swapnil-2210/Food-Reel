@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { inputClass, labelClass, errorClass, buttonClass } from "../styles/formStyles";
 import { foodPartnerLoginSchema } from "../utils/validation/authSchema";
+import BackButton from "../components/BackButton";
 
 export default function FoodPartnerLogin() {
   const {
@@ -15,7 +16,10 @@ export default function FoodPartnerLogin() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-950 px-4">
+    <div className="min-h-screen flex justify-center items-center flex-col bg-gray-950 px-4">
+      <div className="flex mb-4">
+        <BackButton />
+      </div>
       <div className="bg-gray-900 p-6 rounded-xl shadow-xl w-full max-w-md">
         <h2 className="text-white text-2xl font-semibold text-center mb-4">
           Food Partner Login

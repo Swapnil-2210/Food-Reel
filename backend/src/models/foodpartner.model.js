@@ -1,9 +1,22 @@
 import mongoose from "mongoose";
 
 const foodPartnerSchema = new mongoose.Schema({
-  name: {
+  restaurantName: {
     type: String,
     required: true,
+  },
+  ownerName: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+    unique: true,
   },
   email: {
     type: String,
